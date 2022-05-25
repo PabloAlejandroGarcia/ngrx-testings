@@ -1,0 +1,10 @@
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { AOEState } from "./reducers";
+
+export const selectAOEState =
+  createFeatureSelector<AOEState>('aoe-state');
+
+export const baseStrings = createSelector(
+  selectAOEState,
+  (state) => state.strings
+)
