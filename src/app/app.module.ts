@@ -9,6 +9,8 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AOEReducer } from './store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './store/effects';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { AOEReducer } from './store/reducers';
     BrowserAnimationsModule,
     HttpClientModule,
     StoreModule.forRoot({'aoe-state': AOEReducer}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([AppEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]
