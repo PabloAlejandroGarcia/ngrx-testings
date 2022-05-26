@@ -8,3 +8,8 @@ export const baseStrings = createSelector(
   selectAOEState,
   (state) => state.strings
 )
+
+export const leaderboardStrings = createSelector(
+  baseStrings,
+  (strings) => strings.leaderboard
+)

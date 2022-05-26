@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable, tap } from 'rxjs';
+import { AOEObject } from '../model/aoe-object';
 import { AOEStrings } from '../model/aoe-strings';
 import { AoeHTTPService } from '../services/aoe-http.service';
 import { loadStrings, setStrings } from '../store/actions';
 import { AOEState } from '../store/reducers';
-import { baseStrings } from '../store/selectors';
+import { baseStrings, leaderboardStrings } from '../store/selectors';
 
 // TODO: Remove this test data
 export interface PeriodicElement {
@@ -35,10 +36,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class HomeComponent implements OnInit {
 
-  strings$: Observable<AOEStrings> = this.store.select(baseStrings)
+  leaderboards$: Observable<AOEObject[]> = this.store.select(leaderboardStrings)
   // TODO: Remove this test data
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol']
+  displayedColumns: string[] = ['rank', 'rating', 'name', 'games', 'wins', 'losses']
   dataSource = ELEMENT_DATA
+  matchesOptions: number[] = [10,25,50,100]
 
   constructor(
     private store: Store<AOEState>
