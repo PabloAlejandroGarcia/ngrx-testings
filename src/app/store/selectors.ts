@@ -13,3 +13,8 @@ export const leaderboardStrings = createSelector(
   baseStrings,
   (strings) => strings.leaderboard
 )
+
+export const currentLeaderboard = createSelector(
+  selectAOEState,
+  (state) => state.leaderboards
+)

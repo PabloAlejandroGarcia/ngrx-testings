@@ -13,7 +13,8 @@ export const errorLoadingStrings = createAction(
   '[AOE API] ERROR_LOADING_STRINGS'
 );
 export const loadLeaderboard = createAction(
-  '[Home Page] LOAD_LEADERBOARD'
+  '[Home Page] LOAD_LEADERBOARD',
+  props<{index: number, count: number}>()
 );
 export const setLeaderboard = createAction(
   '[AOE API] SET_LEADERBOARD',
