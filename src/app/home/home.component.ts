@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, skipUntil, skipWhile, tap } from 'rxjs';
-import { AOELeaderboard } from '../model/aoe-leaderboard';
+import { filter, Observable, tap } from 'rxjs';
 import { AOEObject } from '../model/aoe-object';
-import { AOEProfile } from '../model/aoe-profile';
-import { loadLeaderboard, loadStrings, setStrings } from '../store/actions';
+import { loadStrings } from '../store/actions';
+import { LeaderboardsActions } from '../store/actions/action-types';
 import { AOEState } from '../store/reducers';
-import { currentLeaderboard, leaderboardStrings } from '../store/selectors';
+import { leaderboardStrings } from '../store/selectors';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +14,13 @@ import { currentLeaderboard, leaderboardStrings } from '../store/selectors';
 })
 export class HomeComponent implements OnInit {
 
-  leaderboards$: Observable<AOEObject[]> = this.store.select(leaderboardStrings)
-  currentLeaderboard$ : Observable<AOELeaderboard> = this.store.select(currentLeaderboard)
-  displayedColumns: string[] = ['rank', 'rating', 'name', 'games', 'wins', 'losses']
-  dataSource$: Observable<AOEProfile[]> = this.currentLeaderboard$.pipe(
-    skipWhile(currentLeaderboard => currentLeaderboard === undefined),
-    map(leaderboard => (leaderboard.leaderboard))
+  leaderboards$: Observable<AOEObject[]> = this.store.select(leaderboardStrings).pipe(
+    filter(leaderboards => (leaderboards !== undefined)),
+    tap(leaderboards => {
+      leaderboards.forEach((leaderboard) => this.store.dispatch(
+        LeaderboardsActions.loadLeaderboard({index: leaderboard.id, count: this.count})
+      ))
+    })
   )
   matchesOptions: number[] = [10,25,50,100]
   count: number = 10
@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadStrings())
-    this.store.dispatch(loadLeaderboard({index: 3, count: this.count}))
   }
 
 }
