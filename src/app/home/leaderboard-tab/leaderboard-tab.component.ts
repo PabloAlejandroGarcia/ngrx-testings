@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AOELeaderboard } from 'src/app/model/aoe-leaderboard';
+import { AOEProfile } from 'src/app/model/aoe-profile';
 
 @Component({
   selector: 'app-leaderboard-tab',
@@ -8,16 +10,14 @@ import { Component, Input, OnInit } from '@angular/core';
 export class LeaderboardTabComponent implements OnInit {
 
   displayedColumns: string[] = ['rank', 'rating', 'name', 'games', 'wins', 'losses']
-  @Input() leaderboardData: string
-  /*currentLeaderboard$ : Observable<AOELeaderboard> = this.store.select(currentLeaderboard)
-  dataSource$: Observable<AOEProfile[]> = this.currentLeaderboard$.pipe(
-    skipWhile(currentLeaderboard => currentLeaderboard === undefined),
-    skipWhile(currentLeaderboard => currentLeaderboard.leaderboard === undefined),
-    map(leaderboard => (leaderboard.leaderboard))
-  )*/
+  @Input() leaderboardData: AOELeaderboard
+
+  dataSource: AOEProfile[]
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dataSource = this.leaderboardData.leaderboard
+  }
 
 }

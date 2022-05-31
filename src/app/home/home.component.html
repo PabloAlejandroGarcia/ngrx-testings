@@ -6,14 +6,8 @@
 </mat-form-field>
 <mat-tab-group animationDuration="0ms">
   <mat-tab *ngFor="let leaderboard of leaderboards$ | async" [label]="leaderboard.string">
-    <app-leaderboard-tab [leaderboardData]="leaderboard.string"></app-leaderboard-tab>
-    <!--table mat-table [dataSource]="dataSource$" class="mat-elevation-z8">
-      <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table-->
+    <ng-container *ngIf="(getLeaderboardData$(leaderboard.id) | async) as leaderboardData">
+      <app-leaderboard-tab [leaderboardData]="leaderboardData"></app-leaderboard-tab>
+    </ng-container>
   </mat-tab>
 </mat-tab-group>

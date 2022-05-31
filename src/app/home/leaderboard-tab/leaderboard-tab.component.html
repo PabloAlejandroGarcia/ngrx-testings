@@ -1,5 +1,4 @@
-<p>{{leaderboardData}}</p>
-<table mat-table class="mat-elevation-z8">
+<table [dataSource]="dataSource" mat-table class="mat-elevation-z8">
   <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
     <td mat-cell *matCellDef="let element"> {{element[column]}} </td>

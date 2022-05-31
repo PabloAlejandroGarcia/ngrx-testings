@@ -11,5 +11,5 @@ export const baseStrings = createSelector(
 
 export const leaderboardStrings = createSelector(
   baseStrings,
-  (strings) => strings.leaderboard
+  (strings) => strings.leaderboard ? strings.leaderboard.filter(item => item.id > 0) : []
 )

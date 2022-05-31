@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, Observable, tap } from 'rxjs';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { AOELeaderboard } from '../model/aoe-leaderboard';
 import { AOEObject } from '../model/aoe-object';
 import { loadStrings } from '../store/actions';
 import { LeaderboardsActions } from '../store/actions/action-types';
 import { AOEState } from '../store/reducers';
 import { leaderboardStrings } from '../store/selectors';
+import { selectLeaderboards } from '../store/selectors/leaderboards.selectors';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,7 @@ export class HomeComponent implements OnInit {
       ))
     })
   )
+
   matchesOptions: number[] = [10,25,50,100]
   count: number = 10
 
@@ -31,6 +34,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadStrings())
+  }
+
+  getLeaderboardData$(id: number): Observable<AOELeaderboard> {
+    return this.store.select(selectLeaderboards).pipe(
+      switchMap((leaderboards) => leaderboards.filter(leaderboard => leaderboard.leaderboard_id === id))
+    )
   }
 
 }
